@@ -20,7 +20,7 @@ phases:
       - "echo ## TERRAFORM refresh : refresh the statefile"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
       - "terraform plan -out tfapply"
-      
+      - "terraform apply -auto-approve"
 artifacts:
   files:
     - '**/*'
