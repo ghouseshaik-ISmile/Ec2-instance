@@ -1,0 +1,27 @@
+version: 0.2
+ 
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - "yum install -y yum-utils"
+      - "yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo"
+      - "yum -y install terraform"
+ 
+  pre_build:
+    commands:
+      - echo "Exporting environment variables for Terraform"
+ 
+  build:
+    commands:
+      - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
+      - "terraform init"
+      - "echo ## TERRAFORM refresh : refresh the statefile"
+      - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
+      - "terraform plan -out tfapply"
+      - "terraform apply -auto-approve"
+ 
+artifacts:
+  files:
+    - '**/*'
